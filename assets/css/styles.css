@@ -1,0 +1,42 @@
+:root {
+    --main-color: rgb(242, 215, 133);
+    --dark-grey: rgb(26, 26, 26);
+}
+
+body {
+    font-family: montserrat, sans-serif;
+}
+
+h1, h2, h3, h4, h5 {
+    color: white;
+}
+
+/* header styles */
+
+.header-bg {
+    background-color: var(--dark-grey);
+}
+
+.weather-title {
+    font-weight: 800;
+    color: white;
+}
+
+.dashboard-title {
+    font-weight: 600;
+    color: var(--main-color);
+}
+
+/* hero image */
+
+.jumbotron {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    background-color: var(--dark-grey);
+    background-image: url("../images/with overlay/hero-image.jpg");
+    background-size: cover;
+    background-position: top;
+    background-attachment: scroll;
+}
+

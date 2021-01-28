@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.typekit.net/qyx5hne.css">
+    <link rel="stylesheet" href="./assets/css/styles.css">
+    <title>Weather Dashboard</title>
+</head>
+<body>
+    <nav class="navbar fixed-top navbar-expand-lg header-bg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><span class="weather-title">WEATHER</span><span class="dashboard-title">DASHBOARD</span></a>
+        </div>
+    </nav>
+
+    <main class="jumbotron d-flex justify-content-center align-items-center">
+        <div class="container-fluid search-form text-center">
+            <h1>Search weather for a city</h1>
+            <button class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                </svg>
+            </button>
+            <input type="text" class="city-search rounded-all" />
+        </div>
+    </main>
+
+    <script src="./assets/js/script.js"></script>
+</body>
+</html>
