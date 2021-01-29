@@ -153,6 +153,24 @@ li {
     text-align: right;
 }
 
+.uv-warning {
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.uv-severe {
+    background-color: red;
+}
+
+.uv-moderate {
+    color: var(--dark-blue);
+    background-color: var(--main-color);
+}
+
+.uv-favorable {
+    background-color: green;
+}
+
 /* five day forecast */
 .five-day-forecast {
     width: 100vw;
