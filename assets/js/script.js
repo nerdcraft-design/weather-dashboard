@@ -2,6 +2,8 @@ var userSearchEl = document.querySelector(".city-search");
 var searchFormEl = document.querySelector(".search-bar");
 var currentCityEl = document.querySelector(".city-info");
 var currentWeatherEl = document.querySelector(".weather-info");
+var heroImageEl = document.querySelector(".main-weather");
+var fiveDayEl = document.querySelector(".five-day-forecast");
 
 var getCityWeather = function(city) {
     // weather api
@@ -11,12 +13,14 @@ var getCityWeather = function(city) {
         response.json().then(function(data) {
             console.log(data);
             displayCurrentWeather(data, city);
+            changeHeroBg(data);
+            displayFiveDayWeather(data);
         })
     })
 };
 
 var displayCurrentWeather = function(weather, city) {
-    // erasing city name?
+    // erase old city weather
     currentCityEl.innerHTML = "";
     currentWeatherEl.innerHTML = "";
 
@@ -70,7 +74,7 @@ var displayCurrentWeather = function(weather, city) {
         fetch(apiUrl).then(function(response) {
             response.json().then(function(data) {
                 // display uv index
-                var uvIndex = data;    
+                var uvIndex = data;
                 var uvIndexEl = document.createElement("h3");
                 
                 if (uvIndex.value < 3) {
@@ -92,6 +96,75 @@ var displayCurrentWeather = function(weather, city) {
     }
 
     getDisplayUV(weather);
+};
+
+var changeHeroBg = function(weather) {
+    heroImageEl.classList = "main-weather"
+    
+    if (weather.list[0].weather[0].id < 600) {
+        heroImageEl.classList.add("rainy");
+    }
+    else if (weather.list[0].weather[0].id >= 600 && weather.list[0].weather[0].id < 700) {
+        heroImageEl.classList.add("snowy");
+    }
+    else if (weather.list[0].weather[0].id > 700 && weather.list[0].weather[0].id < 800) {
+        heroImageEl.classList.add("foggy");
+    }
+    else if (weather.list[0].weather[0].id === 800) {
+        heroImageEl.classList.add("sunny");
+    }
+    else {
+        heroImageEl.classList.add("cloudy");
+    }
+};
+
+var displayFiveDayWeather = function(weather) {
+    fiveDayEl.innerHTML = "";
+
+    for (var i = 1; i < weather.list.length; i+=8) {
+        // creates a div to house weather info
+        var nextDay = document.createElement("div");
+        nextDay.classList = "five-day";
+        nextDay.setAttribute("data-five-day", i);
+
+        fiveDayEl.appendChild(nextDay);
+        
+        nextDay = document.querySelector("[data-five-day='" + i + "']");
+
+        // get current date
+        var currentDateTime = weather.list[i].dt_txt;
+
+        // split date and time
+        var splitDateTime = currentDateTime.split(" ");
+        
+        // date formats
+        var dayDateFormat = ("dddd");
+        var fullDateFormat = ("MM/DD/YYYY")
+
+        // reformatted date
+        var currentDayDate = moment(splitDateTime[0]).format(dayDateFormat);
+        
+        // create date headers for five day forecast
+        var dayDate = document.createElement("h4");
+        dayDate.textContent = currentDayDate;
+        nextDay.appendChild(dayDate);
+
+        var currentFullDate = moment(splitDateTime[0]).format(fullDateFormat);
+
+        var fullDate = document.createElement("h5");
+        fullDate.textContent = currentFullDate;
+        nextDay.appendChild(fullDate);
+
+        // display temp info
+        var tempEl = document.createElement("div");
+        tempEl.innerHTML = "<p>" + Math.ceil(weather.list[i].main.temp) + "<sup class='secondary-degrees'>o</sup></p>";
+        nextDay.appendChild(tempEl);
+
+        // humidity info
+        var humidityEl = document.createElement("h5");
+        humidityEl.textContent = weather.list[i].main.humidity + "% Humidity"
+        nextDay.appendChild(humidityEl);
+    }
 };
 
 var searchSubmitHandler = function(event) {

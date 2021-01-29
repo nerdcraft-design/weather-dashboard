@@ -59,6 +59,26 @@ body {
     align-items: center;
 }
 
+.rainy {
+    background-image: url("../images/with-overlay/rainy-weather.jpg");
+}
+
+.snowy {
+    background-image: url("../images/with-overlay/snowy-weather.jpg");
+}
+
+.foggy {
+    background-image: url("../images/with-overlay/foggy-weather.jpg");
+}
+
+.sunny {
+    background-image: url("../images/with-overlay/sunny-weather.jpg");
+}
+
+.cloudy {
+    background-image: url("../images/with-overlay/cloudy-weather.jpg");
+}
+
 h1 {
     font-weight: 400;
     font-size: 3.5rem;
