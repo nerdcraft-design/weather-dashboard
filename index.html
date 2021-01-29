@@ -3,29 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.typekit.net/qyx5hne.css">
     <link rel="stylesheet" href="./assets/css/styles.css">
     <title>Weather Dashboard</title>
 </head>
 <body>
-    <nav class="navbar fixed-top navbar-expand-lg header-bg">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#"><span class="weather-title">WEATHER</span><span class="dashboard-title">DASHBOARD</span></a>
-        </div>
+    <nav class="nav-bar">
+        <a class="nav-brand" href="./index.html"><span class="weather-title">WEATHER</span><span class="dashboard-title">DASHBOARD</span></a>
     </nav>
 
-    <main class="jumbotron d-flex justify-content-center align-items-center">
-        <div class="container-fluid search-form text-center">
+    <main class="main-weather">
+        <div class="row city-info">
+            <h2 class="city">ATLANTA</h2>
+            <h2 class="date">
+                MONDAY
+                <br />
+                1/25/2021
+            </h3>
+        </div>
+
+        <div class="search-container">
             <h1>Search weather for a city</h1>
-            <button class="btn btn-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                </svg>
-            </button>
-            <input type="text" class="city-search rounded-all" />
+            <div class="search-bar">
+                <button class="btn-search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                </button>
+                <input type="text" class="city-search" placeholder="Search" />
+            </div>
+            <div class="previous-search">
+                <ul class="search-list">
+                    <li class="search-list-item">Previous Searches: </li>
+                    <li class="search-list-item">Atlanta </li>
+                    <li class="search-list-item">New York City </li>
+                    <li class="search-list-item">Chicago </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row weather-info">
+            <div class="current-weather">
+                <h2 class="temp">90<sup class="current-degrees">o</sup></h2>
+            </div>
+            <div class="current-secondary-weather">
+                <h3>Humidity: <span class="humidity-perc">41%</span></h3>
+                <br />
+                <h3>Wind Speed: <span class="wind-speed">4.7mph</span></h3>
+                <br />
+                <h3>UV Index: <span class="uv-warning">9.49</span></h3>
+            </div>
         </div>
     </main>
+
+    <section class="five-day-forecast">
+        <div class="five-day" data-five-day-forecast="1">
+            <h4>TUESDAY</h4>
+            <h5>1/26/2021</h5>
+            <div>
+                <p>90<sup class="secondary-degrees">o</sup></p>
+                <img src="./assets/images/icons/secondary-weather-icons/secondary-sunny-icon.svg" alt="Sunny weather" class="secondary-weather-icon" />
+            </div>
+            <h5>43% Humidity</h5>
+        </div>
+        <div class="five-day" data-five-day-forecast="2">
+            <h4>TUESDAY</h4>
+            <h5>1/26/2021</h5>
+            <div>
+                <p>90<sup class="secondary-degrees">o</sup></p>
+                <img src="./assets/images/icons/secondary-weather-icons/secondary-sunny-icon.svg" alt="Sunny weather" class="secondary-weather-icon" />
+            </div>
+            <h5>43% Humidity</h5>
+        </div>
+        <div class="five-day" data-five-day-forecast="3">
+            <h4>TUESDAY</h4>
+            <h5>1/26/2021</h5>
+            <div>
+                <p>90<sup class="secondary-degrees">o</sup></p>
+                <img src="./assets/images/icons/secondary-weather-icons/secondary-sunny-icon.svg" alt="Sunny weather" class="secondary-weather-icon" />
+            </div>
+            <h5>43% Humidity</h5>
+        </div>
+        <div class="five-day" data-five-day-forecast="4">
+            <h4>TUESDAY</h4>
+            <h5>1/26/2021</h5>
+            <div>
+                <p>90<sup class="secondary-degrees">o</sup></p>
+                <img src="./assets/images/icons/secondary-weather-icons/secondary-sunny-icon.svg" alt="Sunny weather" class="secondary-weather-icon" />
+            </div>
+            <h5>43% Humidity</h5>
+        </div>
+        <div class="five-day" data-five-day-forecast="5">
+            <h4>TUESDAY</h4>
+            <h5>1/26/2021</h5>
+            <div>
+                <p>90<sup class="secondary-degrees">o</sup></p>
+                <img src="./assets/images/icons/secondary-weather-icons/secondary-sunny-icon.svg" alt="Sunny weather" class="secondary-weather-icon" />
+            </div>
+            <h5>43% Humidity</h5>
+        </div>
+    </section>
 
     <script src="./assets/js/script.js"></script>
 </body>
