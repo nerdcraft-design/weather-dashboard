@@ -164,6 +164,11 @@ li {
     font-size: 1.2rem;
 }
 
+ul li a {
+    text-decoration: none;
+    color: white;
+}
+
 /* main results styles */
 
 .city, .date {

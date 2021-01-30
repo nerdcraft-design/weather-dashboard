@@ -4,6 +4,9 @@ var currentCityEl = document.querySelector(".city-info");
 var currentWeatherEl = document.querySelector(".weather-info");
 var heroImageEl = document.querySelector(".main-weather");
 var fiveDayEl = document.querySelector(".five-day-forecast");
+var previousSearchEl = document.querySelector(".search-list");
+
+var previousSearch = [];
 
 var getCityWeather = function(city) {
     // weather api
@@ -11,10 +14,10 @@ var getCityWeather = function(city) {
 
     fetch(apiUrl).then(function(response) {
         response.json().then(function(data) {
-            console.log(data);
             displayCurrentWeather(data, city);
             changeHeroBg(data);
             displayFiveDayWeather(city);
+
         })
     })
 };
@@ -158,7 +161,6 @@ var displayFiveDayWeather = function(city) {
     fetch(apiUrl).then(function(response) {
         response.json().then(function(weather) {
             for (var i = 0; i < weather.list.length; i+=7) {
-                console.log(weather);
                 // get current date
                 var currentDateTime = weather.list[i].dt_txt;
         
@@ -248,6 +250,25 @@ var displayFiveDayWeather = function(city) {
     })
 };
 
+var previousSearchHandler = function(cityName) {
+    var searchedCityListEl = document.createElement("li");
+    previousSearchEl.appendChild(searchedCityListEl);
+
+    
+    var searchedCity = document.createElement("a");
+    searchedCity.textContent = cityName + "   ";
+    searchedCity.setAttribute("href", "#");
+    searchedCity.setAttribute("data-city", cityName);
+
+    searchedCityListEl.appendChild(searchedCity);
+};
+
+var getPreviousSearch = function(event) {
+    event.preventDefault();
+    var cityEl = event.target.getAttribute("data-city");
+    getCityWeather(cityEl);   
+};
+
 var searchSubmitHandler = function(event) {
     // prevents page from reloading
     event.preventDefault();
@@ -260,6 +281,11 @@ var searchSubmitHandler = function(event) {
         getCityWeather(cityName);
         userSearchEl.value = "";
     }
+    
+    previousSearch.push(cityName);
+    previousSearchHandler(cityName);
 };
 
 searchFormEl.addEventListener("submit", searchSubmitHandler);
+
+previousSearchEl.addEventListener("click", getPreviousSearch);
