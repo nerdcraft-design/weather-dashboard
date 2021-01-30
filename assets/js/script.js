@@ -8,6 +8,7 @@ var previousSearchEl = document.querySelector(".search-list");
 
 var previousSearch = [];
 
+// pulls data for the current weather
 var getCityWeather = function(city) {
     // weather api
     var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=fc127e8ad0327bd54aa8b403959d0ff1";
@@ -17,11 +18,11 @@ var getCityWeather = function(city) {
             displayCurrentWeather(data, city);
             changeHeroBg(data);
             displayFiveDayWeather(city);
-
         })
     })
 };
 
+// displays current weather information
 var displayCurrentWeather = function(weather, city) {
     // erase old city weather
     currentCityEl.innerHTML = "";
@@ -90,8 +91,6 @@ var displayCurrentWeather = function(weather, city) {
         tempEl.appendChild(cloudyIcon);
     }
 
-    
-
     // display weather conditions
     var weatherConditionsEl = document.createElement("div");
     weatherConditionsEl.classList = "current-secondary-weather";
@@ -132,6 +131,7 @@ var displayCurrentWeather = function(weather, city) {
     getDisplayUV(weather);
 };
 
+// function to change hero image backgroudn based on current weather
 var changeHeroBg = function(weather) {
     heroImageEl.classList = "main-weather main-weather-display"
     
@@ -152,6 +152,7 @@ var changeHeroBg = function(weather) {
     }
 };
 
+// function to display the 5 day weather forecast
 var displayFiveDayWeather = function(city) {
     fiveDayEl.innerHTML = "";
 
@@ -250,6 +251,7 @@ var displayFiveDayWeather = function(city) {
     })
 };
 
+// function to create previous search list
 var previousSearchHandler = function(cityName) {
     var searchedCityListEl = document.createElement("li");
     previousSearchEl.appendChild(searchedCityListEl);
@@ -263,12 +265,7 @@ var previousSearchHandler = function(cityName) {
     searchedCityListEl.appendChild(searchedCity);
 };
 
-var getPreviousSearch = function(event) {
-    event.preventDefault();
-    var cityEl = event.target.getAttribute("data-city");
-    getCityWeather(cityEl);   
-};
-
+// function to handle search form
 var searchSubmitHandler = function(event) {
     // prevents page from reloading
     event.preventDefault();
@@ -281,9 +278,27 @@ var searchSubmitHandler = function(event) {
         getCityWeather(cityName);
         userSearchEl.value = "";
     }
+
+    // checks previousSearch array to determine whether to push or splice
+    if (previousSearch.length < 5) {
+        previousSearch.push(cityName);
+        console.log(previousSearch);
+    }
+    else {
+        previousSearch.shift();
+        previousSearch.push(cityName);
+        console.log(previousSearch);
+    }
     
-    previousSearch.push(cityName);
+    // calls function to display search to page
     previousSearchHandler(cityName);
+};
+
+// function to call weather for previous searches
+var getPreviousSearch = function(event) {
+    event.preventDefault();
+    var cityEl = event.target.getAttribute("data-city");
+    getCityWeather(cityEl);   
 };
 
 searchFormEl.addEventListener("submit", searchSubmitHandler);

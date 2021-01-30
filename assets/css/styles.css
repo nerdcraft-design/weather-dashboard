@@ -169,6 +169,10 @@ ul li a {
     color: white;
 }
 
+ul li a:hover {
+    color: var(--main-color);
+}
+
 /* main results styles */
 
 .city, .date {
