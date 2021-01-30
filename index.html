@@ -13,19 +13,16 @@
     </nav>
 
     <main class="main-weather">
-        <div class="row city-info">
-            <!-- <h2 class="city"></h2>
-            <h2 class="date">   
-            </h3> -->
+        <div class="current-weather-container">
+            <div class="row city-info"></div>
+            <div class="row weather-info"></div>
         </div>
 
         <div class="search-container">
             <h1>Search weather for a city</h1>
             <form class="search-bar">
                 <button type="submit" class="btn-search">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                    </svg>
+                    <img src="./assets/images/icons/search-icon.svg" alt="Search" class="search-icon" />
                 </button>
                 <input type="text" class="city-search" placeholder="Search" />
             </form>
@@ -38,26 +35,14 @@
                 </ul>
             </div>
         </div>
-
-        <div class="row weather-info"></div>
     </main>
 
     <section class="five-day-forecast">
-        <div class="five-day">
-            -
-        </div>
-        <div class="five-day">
-            -
-        </div>
-        <div class="five-day">
-            -
-        </div>
-        <div class="five-day">
-           - 
-        </div>
-        <div class="five-day">
-            -
-        </div>
+        <div class="five-day"></div>
+        <div class="five-day"></div>
+        <div class="five-day"></div>
+        <div class="five-day"></div>
+        <div class="five-day"></div>
     </section>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>

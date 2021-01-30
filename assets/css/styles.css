@@ -47,16 +47,21 @@ body {
 
 /* search section */
 .main-weather {
-    height: 75vh;
+    height: 100vh;
     width: 100vw;
+    padding-bottom: 10%;
     overflow: hidden;
     background-image: url("../images/with-overlay/hero-image.jpg");
     background-size: cover;
     background-position: center;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+}
+
+.main-weather-display {
+    padding-bottom: 22%;
 }
 
 .rainy {
@@ -89,8 +94,20 @@ h1 {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     padding: 10px 20px 0 20px;
+}
+
+.weather-info {
+    padding-top: 0px;
+}
+
+.current-weather-container {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-content: flex-start;
 }
 
 /* search bar */
@@ -99,6 +116,8 @@ h1 {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    position: relative;
+    margin: auto auto;
 }
 
 .search-bar {
@@ -106,6 +125,10 @@ h1 {
     width: 100%;
     display: flex;
     justify-content: center;
+}
+
+.search-icon {
+    width: 40%;
 }
 
 .btn-search {
@@ -165,7 +188,8 @@ li {
 
 .current-degrees {
     font-size: 2rem;
-    padding-top: 20px;
+    position: relative;
+    top: 20px;
 }
 
 .current-secondary-weather h3 {
@@ -195,23 +219,27 @@ li {
 /* five day forecast */
 .five-day-forecast {
     width: 100vw;
-    height: 20vh;
+    height: 25vh;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     place-items: center;
+    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%);
+    position: fixed;
+    bottom: 0;
+    z-index: 9999;
 }
 
 .five-day {
     height: 100%;
     width: 100%;
-    border: 2px solid var(--dark-blue);
+    /* border: 2px solid var(--dark-blue); */
     border-top: 0;
     border-bottom: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: var(--dark-blue);
+    color: white);
 }
 
 .five-day h4 {
@@ -238,9 +266,8 @@ li {
     top: -10px;
 }
 
-.secondary-weather-icon {
-    width: 30%;
-    
+.secondary-icon-cloudy {
+    background-image: url("../images/icons/secondary-weather-icons/secondary-cloudy-icon.svg");
 }
 
 .five-day h5 {

@@ -7,14 +7,14 @@ var fiveDayEl = document.querySelector(".five-day-forecast");
 
 var getCityWeather = function(city) {
     // weather api
-    var apiUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial&appid=fc127e8ad0327bd54aa8b403959d0ff1";
+    var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=fc127e8ad0327bd54aa8b403959d0ff1";
 
     fetch(apiUrl).then(function(response) {
         response.json().then(function(data) {
             console.log(data);
             displayCurrentWeather(data, city);
             changeHeroBg(data);
-            displayFiveDayWeather(data);
+            displayFiveDayWeather(city);
         })
     })
 };
@@ -30,18 +30,12 @@ var displayCurrentWeather = function(weather, city) {
     cityNameEl.textContent = city;
 
     currentCityEl.appendChild(cityNameEl);
-
-    // get current date
-    var currentDateTime = weather.list[0].dt_txt;
-
-    // split date and time
-    var splitDateTime = currentDateTime.split(" ");
     
     // date format
     var dateFormat = ("MM/DD/YYYY");
 
     // reformatted date
-    var currentDate = moment(splitDateTime[0]).format(dateFormat);
+    var currentDate = moment().format(dateFormat);
 
     // display current date
     var currentDateEl = document.createElement("h2");
@@ -53,7 +47,7 @@ var displayCurrentWeather = function(weather, city) {
     // display temperature
     var tempEl = document.createElement("div");
     tempEl.classList = "current-weather";
-    tempEl.innerHTML = "<h2 class='temp'>" + Math.ceil(weather.list[0].main.temp) + "<sup class='current-degrees'>o</sup></h2>";
+    tempEl.innerHTML = "<h2 class='temp'>" + Math.ceil(weather.main.temp) + "<sup class='current-degrees'>o</sup></h2>";
 
     currentWeatherEl.appendChild(tempEl);
 
@@ -61,15 +55,14 @@ var displayCurrentWeather = function(weather, city) {
     var weatherConditionsEl = document.createElement("div");
     weatherConditionsEl.classList = "current-secondary-weather";
     weatherConditionsEl.innerHTML =
-    "<h3>Humidity: <span class='humidity-perc'>" + weather.list[0].main.humidity + "%</span></h3><br />"
-    + "<h3>Wind Speed: <span class='wind-speed'>" + weather.list[0].wind.speed + "%</span></h3><br />" ;
-    + "<h3>Wind Speed: <span class='wind-speed'>" + weather.list[0].wind.speed + "%</span></h3><br />" ;
+    "<h3>Humidity: <span class='humidity-perc'>" + weather.main.humidity + "%</span></h3><br />"
+    + "<h3>Wind Speed: <span class='wind-speed'>" + weather.wind.speed + "%</span></h3><br />" ;
 
     currentWeatherEl.appendChild(weatherConditionsEl);
 
     // get uv index data
     var getDisplayUV = function(weather) {
-        var apiUrl = "https://api.openweathermap.org/data/2.5/uvi?lat=" + weather.city.coord.lat + "&lon=" + weather.city.coord.lon + "&appid=fc127e8ad0327bd54aa8b403959d0ff1";
+        var apiUrl = "https://api.openweathermap.org/data/2.5/uvi?lat=" + weather.coord.lat + "&lon=" + weather.coord.lon + "&appid=fc127e8ad0327bd54aa8b403959d0ff1";
 
         fetch(apiUrl).then(function(response) {
             response.json().then(function(data) {
@@ -99,18 +92,18 @@ var displayCurrentWeather = function(weather, city) {
 };
 
 var changeHeroBg = function(weather) {
-    heroImageEl.classList = "main-weather"
+    heroImageEl.classList = "main-weather main-weather-display"
     
-    if (weather.list[0].weather[0].id < 600) {
+    if (weather.weather[0].id < 600) {
         heroImageEl.classList.add("rainy");
     }
-    else if (weather.list[0].weather[0].id >= 600 && weather.list[0].weather[0].id < 700) {
+    else if (weather.weather[0].id >= 600 && weather.weather[0].id < 700) {
         heroImageEl.classList.add("snowy");
     }
-    else if (weather.list[0].weather[0].id > 700 && weather.list[0].weather[0].id < 800) {
+    else if (weather.weather[0].id > 700 && weather.weather[0].id < 800) {
         heroImageEl.classList.add("foggy");
     }
-    else if (weather.list[0].weather[0].id === 800) {
+    else if (weather.weather[0].id === 800) {
         heroImageEl.classList.add("sunny");
     }
     else {
@@ -118,53 +111,80 @@ var changeHeroBg = function(weather) {
     }
 };
 
-var displayFiveDayWeather = function(weather) {
+var displayFiveDayWeather = function(city) {
     fiveDayEl.innerHTML = "";
 
-    for (var i = 1; i < weather.list.length; i+=8) {
-        // creates a div to house weather info
-        var nextDay = document.createElement("div");
-        nextDay.classList = "five-day";
-        nextDay.setAttribute("data-five-day", i);
+    // weather api
+    var apiUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial&appid=fc127e8ad0327bd54aa8b403959d0ff1";
 
-        fiveDayEl.appendChild(nextDay);
+    fetch(apiUrl).then(function(response) {
+        response.json().then(function(weather) {
+            for (var i = 1; i < weather.list.length; i+=8) {
+                console.log(weather);
+                // creates a div to house weather info
+                var nextDay = document.createElement("div");
+                nextDay.classList = "five-day";
+                nextDay.setAttribute("data-five-day", i);
         
-        nextDay = document.querySelector("[data-five-day='" + i + "']");
-
-        // get current date
-        var currentDateTime = weather.list[i].dt_txt;
-
-        // split date and time
-        var splitDateTime = currentDateTime.split(" ");
+                fiveDayEl.appendChild(nextDay);
+                
+                nextDay = document.querySelector("[data-five-day='" + i + "']");
         
-        // date formats
-        var dayDateFormat = ("dddd");
-        var fullDateFormat = ("MM/DD/YYYY")
-
-        // reformatted date
-        var currentDayDate = moment(splitDateTime[0]).format(dayDateFormat);
+                // get current date
+                var currentDateTime = weather.list[i].dt_txt;
         
-        // create date headers for five day forecast
-        var dayDate = document.createElement("h4");
-        dayDate.textContent = currentDayDate;
-        nextDay.appendChild(dayDate);
+                // split date and time
+                var splitDateTime = currentDateTime.split(" ");
+                
+                // date formats
+                var dayDateFormat = ("dddd");
+                var fullDateFormat = ("MM/DD/YYYY")
+        
+                // reformatted date
+                var currentDayDate = moment(splitDateTime[0]).format(dayDateFormat);
+                
+                // create date headers for five day forecast
+                var dayDate = document.createElement("h4");
+                dayDate.textContent = currentDayDate;
+                nextDay.appendChild(dayDate);
+        
+                var currentFullDate = moment(splitDateTime[0]).format(fullDateFormat);
+        
+                var fullDate = document.createElement("h5");
+                fullDate.textContent = currentFullDate;
+                nextDay.appendChild(fullDate);
+        
+                // display temp info
+                var tempEl = document.createElement("div");
 
-        var currentFullDate = moment(splitDateTime[0]).format(fullDateFormat);
+                if (weather.list[i].weather[0].id < 600) {
+                    tempEl.innerHTML = "<p>" + Math.ceil(weather.list[i].main.temp) + "<sup class='secondary-degrees'>o</sup> </p> <img src='../images/icons/secondary-weather-icons/secondary-rainy-icon.svg' alt='Rainy' class='secondary-icons' />";
 
-        var fullDate = document.createElement("h5");
-        fullDate.textContent = currentFullDate;
-        nextDay.appendChild(fullDate);
+                }
+                else if (weather.list[i].weather[0].id >= 600 && weather.list[i].weather[0].id < 700) {
+                    tempEl.innerHTML = "<p>" + Math.ceil(weather.list[i].main.temp) + "<sup class='secondary-degrees'>o</sup> </p> <img src='../images/icons/secondary-weather-icons/secondary-snowy-icon.svg' alt='Snowy' class='secondary-icons' />";
+                }
+                else if (weather.list[i].weather[0].id > 700 && weather.list[i].weather[0].id < 800) {
+                    tempEl.innerHTML = "<p>" + Math.ceil(weather.list[i].main.temp) + "<sup class='secondary-degrees'>o</sup> </p> <img src='../images/icons/secondary-weather-icons/secondary-foggy-icon.svg' alt='Foggy' class='secondary-icons' />";
+                }
+                else if (weather.list[i].weather[0].id === 800) {
+                    tempEl.innerHTML = "<p>" + Math.ceil(weather.list[i].main.temp) + "<sup class='secondary-degrees'>o</sup> </p> <img src='../images/icons/secondary-weather-icons/secondary-sunny-icon.svg' alt='Sunny' class='secondary-icons' />";
+                }
+                else {
+                    var cloudyIcon = document.createElement("div");
+                    cloudyIcon.classList = "secondary-icon-cloudy";
+                    tempEl.innerHTML = "<p>" + Math.ceil(weather.list[i].main.temp) + "<sup class='secondary-degrees'>o</sup></p>" + cloudyIcon;
+                }
 
-        // display temp info
-        var tempEl = document.createElement("div");
-        tempEl.innerHTML = "<p>" + Math.ceil(weather.list[i].main.temp) + "<sup class='secondary-degrees'>o</sup></p>";
-        nextDay.appendChild(tempEl);
-
-        // humidity info
-        var humidityEl = document.createElement("h5");
-        humidityEl.textContent = weather.list[i].main.humidity + "% Humidity"
-        nextDay.appendChild(humidityEl);
-    }
+                nextDay.appendChild(tempEl);
+        
+                // humidity info
+                var humidityEl = document.createElement("h5");
+                humidityEl.textContent = weather.list[i].main.humidity + "% Humidity"
+                nextDay.appendChild(humidityEl);
+            }
+        })
+    })
 };
 
 var searchSubmitHandler = function(event) {
