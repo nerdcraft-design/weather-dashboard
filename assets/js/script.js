@@ -5,6 +5,7 @@ var currentWeatherEl = document.querySelector(".weather-info");
 var heroImageEl = document.querySelector(".main-weather");
 var fiveDayEl = document.querySelector(".five-day-forecast");
 var previousSearchEl = document.querySelector(".search-list");
+var displayMessage = document.querySelector("#message");
 
 var previousSearch = [];
 
@@ -14,11 +15,30 @@ var getCityWeather = function(city) {
     var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=fc127e8ad0327bd54aa8b403959d0ff1";
 
     fetch(apiUrl).then(function(response) {
-        response.json().then(function(data) {
-            displayCurrentWeather(data, city);
-            changeHeroBg(data);
-            displayFiveDayWeather(city);
-        })
+        if (response.ok) {
+            response.json().then(function(data) {
+                // checks previousSearch array to determine whether to push or splice
+                if (previousSearch.length < 5) {
+                    previousSearch.push(city);
+                }
+                else {
+                    previousSearch.shift();
+                    previousSearch.push(city);
+                }    
+                
+                displayCurrentWeather(data, city);
+                changeHeroBg(data);
+                displayFiveDayWeather(city);
+                previousSearchHandler(city);
+
+                displayMessage.textContent = "Search weather for a city"
+            })
+        }
+        else {
+           displayMessage.textContent = "Sorry. No City Found."
+           saveSearches();
+           auditSearches();
+        }
     })
 };
 
@@ -161,7 +181,8 @@ var displayFiveDayWeather = function(city) {
 
     fetch(apiUrl).then(function(response) {
         response.json().then(function(weather) {
-            for (var i = 0; i < weather.list.length; i+=7) {
+            console.log(weather);
+            for (var i = 0; i < weather.list.length; i+=8) {
                 // get current date
                 var currentDateTime = weather.list[i].dt_txt;
         
@@ -170,14 +191,19 @@ var displayFiveDayWeather = function(city) {
                 
                 // date formats
                 var dayDateFormat = ("dddd");
-                var fullDateFormat = ("MM/DD/YYYY")
+                var fullDateFormat = ("MM/DD/YYYY");
         
                 // reformatted date
                 var currentDayDate = moment(splitDateTime[0]).format(dayDateFormat);
+                var fullDate = moment(splitDateTime[0]).format(fullDateFormat);
 
                 if (currentDayDate === moment().format(dayDateFormat)) {
                     continue;
                 }
+
+                if (moment().diff(fullDate, "days") > 5) {
+                    alert("date is past 5 days");
+                } 
 
                 // creates a div to house weather info
                 var nextDay = document.createElement("div");
@@ -251,7 +277,27 @@ var displayFiveDayWeather = function(city) {
     })
 };
 
-// function to create previous search list
+// function to create previous searches on load
+var createPreviousSearches = function() {
+    if (previousSearch) {
+        for (var i = 0; i < previousSearch.length; i++) {
+            var searchedCityListEl = document.createElement("li");
+            previousSearchEl.appendChild(searchedCityListEl);
+            
+            var searchedCity = document.createElement("a");
+            searchedCity.textContent = previousSearch[i] + "   ";
+            searchedCity.setAttribute("href", "#");
+            searchedCity.setAttribute("data-city", previousSearch[i]);
+    
+            searchedCityListEl.appendChild(searchedCity);
+        }
+    }
+    else {
+        return;
+    }
+};
+
+// function to create previous search list as it grows
 var previousSearchHandler = function(cityName) {
     var searchedCityListEl = document.createElement("li");
     previousSearchEl.appendChild(searchedCityListEl);
@@ -263,6 +309,9 @@ var previousSearchHandler = function(cityName) {
     searchedCity.setAttribute("data-city", cityName);
 
     searchedCityListEl.appendChild(searchedCity);
+
+    saveSearches();
+    auditSearches();
 };
 
 // function to handle search form
@@ -278,20 +327,6 @@ var searchSubmitHandler = function(event) {
         getCityWeather(cityName);
         userSearchEl.value = "";
     }
-
-    // checks previousSearch array to determine whether to push or splice
-    if (previousSearch.length < 5) {
-        previousSearch.push(cityName);
-        console.log(previousSearch);
-    }
-    else {
-        previousSearch.shift();
-        previousSearch.push(cityName);
-        console.log(previousSearch);
-    }
-    
-    // calls function to display search to page
-    previousSearchHandler(cityName);
 };
 
 // function to call weather for previous searches
@@ -301,6 +336,36 @@ var getPreviousSearch = function(event) {
     getCityWeather(cityEl);   
 };
 
+// checks to see if there's more than 5 search items
+var auditSearches = function() {
+    if (previousSearch.length === 5) {
+        previousSearchEl.innerHTML = "";
+        createPreviousSearches();
+        saveSearches();
+    } 
+    else {
+        return;
+    }
+};
+
+// saves searches to localStorage
+var saveSearches = function() {
+    localStorage.setItem("searches", JSON.stringify(previousSearch));
+};
+
+// loads searches from localStorage
+var loadSearches = function() {  
+    previousSearch = JSON.parse(localStorage.getItem("searches"));
+
+    if (!previousSearch) {
+        previousSearch = [];
+    }
+
+    createPreviousSearches();
+}
+
 searchFormEl.addEventListener("submit", searchSubmitHandler);
 
 previousSearchEl.addEventListener("click", getPreviousSearch);
+
+loadSearches();

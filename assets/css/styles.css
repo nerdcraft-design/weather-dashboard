@@ -113,6 +113,7 @@ h1 {
 /* search bar */
 .search-container {
     height: 180px;
+    width: 690px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -155,13 +156,12 @@ h1 {
 }
 
 ul {
-    font-size: 1.2rem;
     list-style: none;  
 }
 
 li {
     display: inline;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
 }
 
 ul li a {
