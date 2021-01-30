@@ -179,17 +179,26 @@ li {
     font-size: 1.5rem;
 }
 
+.current-weather {
+    display: flex;
+    align-items: center;
+}
+
 .temp {
     font-size: 8rem;
     color: var(--main-color);
-    display: flex;
-    align-items: flex-start;
+    display: inline;
 }
 
 .current-degrees {
     font-size: 2rem;
     position: relative;
-    top: 20px;
+    top: -30px;
+}
+
+.main-icon {
+    width: 20%;
+    margin: 20px;
 }
 
 .current-secondary-weather h3 {
@@ -266,8 +275,8 @@ li {
     top: -10px;
 }
 
-.secondary-icon-cloudy {
-    background-image: url("../images/icons/secondary-weather-icons/secondary-cloudy-icon.svg");
+.secondary-icon {
+    width: 30%
 }
 
 .five-day h5 {

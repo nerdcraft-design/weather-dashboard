@@ -51,6 +51,44 @@ var displayCurrentWeather = function(weather, city) {
 
     currentWeatherEl.appendChild(tempEl);
 
+    // if rainy
+    if (weather.weather[0].id < 600) {
+        var rainyIcon = document.createElement("img");
+        rainyIcon.setAttribute("src", "./assets/images/icons/rainy-icon.svg");
+        rainyIcon.classList = "main-icon";
+        tempEl.appendChild(rainyIcon);
+    }
+    // if snowy
+    else if (weather.weather[0].id >= 600 && weather.weather[0].id < 700) {
+        var snowyIcon = document.createElement("img");
+        snowyIcon.setAttribute("src", "./assets/images/icons/snowy-icon.svg");
+        snowyIcon.classList = "main-icon";
+        tempEl.appendChild(snowyIcon);
+    }
+    // if foggy or hazy
+    else if (weather.weather[0].id > 700 && weather.weather[0].id < 800) {
+        var foggyIcon = document.createElement("img");
+        foggyIcon.setAttribute("src", "./assets/images/icons/foggy-icon.svg");
+        foggyIcon.classList = "main-icon";
+        tempEl.appendChild(foggyIcon);
+    }
+    // if sunny and clear
+    else if (weather.weather[0].id === 800) {
+        var sunnyIcon = document.createElement("img");
+        sunnyIcon.setAttribute("src", "./assets/images/icons/sunny-icon.svg");
+        sunnyIcon.classList = "main-icon";
+        tempEl.appendChild(sunnyIcon);
+    }
+    // if cloudy
+    else {
+        var cloudyIcon = document.createElement("img");
+        cloudyIcon.setAttribute("src", "./assets/images/icons/cloudy-icon.svg");
+        cloudyIcon.classList = "main-icon";
+        tempEl.appendChild(cloudyIcon);
+    }
+
+    
+
     // display weather conditions
     var weatherConditionsEl = document.createElement("div");
     weatherConditionsEl.classList = "current-secondary-weather";
@@ -119,17 +157,8 @@ var displayFiveDayWeather = function(city) {
 
     fetch(apiUrl).then(function(response) {
         response.json().then(function(weather) {
-            for (var i = 1; i < weather.list.length; i+=8) {
+            for (var i = 0; i < weather.list.length; i+=7) {
                 console.log(weather);
-                // creates a div to house weather info
-                var nextDay = document.createElement("div");
-                nextDay.classList = "five-day";
-                nextDay.setAttribute("data-five-day", i);
-        
-                fiveDayEl.appendChild(nextDay);
-                
-                nextDay = document.querySelector("[data-five-day='" + i + "']");
-        
                 // get current date
                 var currentDateTime = weather.list[i].dt_txt;
         
@@ -142,6 +171,19 @@ var displayFiveDayWeather = function(city) {
         
                 // reformatted date
                 var currentDayDate = moment(splitDateTime[0]).format(dayDateFormat);
+
+                if (currentDayDate === moment().format(dayDateFormat)) {
+                    continue;
+                }
+
+                // creates a div to house weather info
+                var nextDay = document.createElement("div");
+                nextDay.classList = "five-day";
+                nextDay.setAttribute("data-five-day", i);
+        
+                fiveDayEl.appendChild(nextDay);
+                
+                nextDay = document.querySelector("[data-five-day='" + i + "']");
                 
                 // create date headers for five day forecast
                 var dayDate = document.createElement("h4");
@@ -156,24 +198,43 @@ var displayFiveDayWeather = function(city) {
         
                 // display temp info
                 var tempEl = document.createElement("div");
+                tempEl.innerHTML = "<p>" + Math.ceil(weather.list[i].main.temp) + "<sup class='secondary-degrees'>o</sup></p>";
 
+                // if rainy
                 if (weather.list[i].weather[0].id < 600) {
-                    tempEl.innerHTML = "<p>" + Math.ceil(weather.list[i].main.temp) + "<sup class='secondary-degrees'>o</sup> </p> <img src='../images/icons/secondary-weather-icons/secondary-rainy-icon.svg' alt='Rainy' class='secondary-icons' />";
-
+                    var rainyIcon = document.createElement("img");
+                    rainyIcon.setAttribute("src", "./assets/images/icons/secondary-weather-icons/secondary-rainy-icon.svg");
+                    rainyIcon.classList = "secondary-icon"
+                    
+                    tempEl.appendChild(rainyIcon);
                 }
+                // if snowy
                 else if (weather.list[i].weather[0].id >= 600 && weather.list[i].weather[0].id < 700) {
-                    tempEl.innerHTML = "<p>" + Math.ceil(weather.list[i].main.temp) + "<sup class='secondary-degrees'>o</sup> </p> <img src='../images/icons/secondary-weather-icons/secondary-snowy-icon.svg' alt='Snowy' class='secondary-icons' />";
+                    var snowyIcon = document.createElement("img");
+                    snowyIcon.setAttribute("src", "./assets/images/icons/secondary-weather-icons/secondary-snowy-icon.svg");
+                    snowyIcon.classList = "secondary-icon"
+                    tempEl.appendChild(snowyIcon);
                 }
+                // if foggy or hazy
                 else if (weather.list[i].weather[0].id > 700 && weather.list[i].weather[0].id < 800) {
-                    tempEl.innerHTML = "<p>" + Math.ceil(weather.list[i].main.temp) + "<sup class='secondary-degrees'>o</sup> </p> <img src='../images/icons/secondary-weather-icons/secondary-foggy-icon.svg' alt='Foggy' class='secondary-icons' />";
+                    var foggyIcon = document.createElement("img");
+                    foggyIcon.setAttribute("src", "./assets/images/icons/secondary-weather-icons/secondary-foggy-icon.svg");
+                    foggyIcon.classList = "secondary-icon"
+                    tempEl.appendChild(foggyIcon);
                 }
+                // if sunny and clear
                 else if (weather.list[i].weather[0].id === 800) {
-                    tempEl.innerHTML = "<p>" + Math.ceil(weather.list[i].main.temp) + "<sup class='secondary-degrees'>o</sup> </p> <img src='../images/icons/secondary-weather-icons/secondary-sunny-icon.svg' alt='Sunny' class='secondary-icons' />";
+                    var sunnyIcon = document.createElement("img");
+                    sunnyIcon.setAttribute("src", "./assets/images/icons/secondary-weather-icons/secondary-sunny-icon.svg");
+                    sunnyIcon.classList = "secondary-icon"
+                    tempEl.appendChild(sunnyIcon);
                 }
+                // if cloudy
                 else {
-                    var cloudyIcon = document.createElement("div");
-                    cloudyIcon.classList = "secondary-icon-cloudy";
-                    tempEl.innerHTML = "<p>" + Math.ceil(weather.list[i].main.temp) + "<sup class='secondary-degrees'>o</sup></p>" + cloudyIcon;
+                    var cloudyIcon = document.createElement("img");
+                    cloudyIcon.setAttribute("src", "./assets/images/icons/secondary-weather-icons/secondary-cloudy-icon.svg");
+                    cloudyIcon.classList = "secondary-icon"
+                    tempEl.appendChild(cloudyIcon);
                 }
 
                 nextDay.appendChild(tempEl);
