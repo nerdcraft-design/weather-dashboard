@@ -28,6 +28,7 @@ body {
     padding: 20px;
     display: flex;
     align-items: center;
+    z-index: 9999;
 }
 
 .nav-brand {
@@ -45,7 +46,7 @@ body {
     color: var(--main-color);
 }
 
-/* search section */
+/* weather section */
 .main-weather {
     height: 100vh;
     width: 100vw;
@@ -244,7 +245,7 @@ ul li a:hover {
     background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%);
     position: fixed;
     bottom: 0;
-    z-index: 9999;
+    z-index: 9000;
 }
 
 .five-day {
@@ -292,3 +293,69 @@ ul li a:hover {
     font-size: 1.25rem;
     font-weight: 600;
 }
+
+/* media queries */
+@media screen and (max-width: 600px) {
+    body {
+        overflow: scroll;
+    }
+    
+    /* header styles */
+    .nav-bar {
+        height: 10vh;
+        text-align: center;
+        justify-content: center;
+        position: fixed;
+        top: 0;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    .main-weather {
+        overflow: scroll;
+    }
+
+    /* search bar */
+    .search-container {
+        width: 100%;
+        margin: 0;
+    }
+
+    /* weather results */
+    .row {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .city, .date {
+        text-align: center;
+        font-size: 2rem;
+    }
+
+    .weather-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .current-weather {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .current-secondary-weather h3 {
+        display: none;
+    }
+
+    /* five day forecast */
+    .five-day-forecast {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        position: static;
+        background: none;
+    }
+    
+}
+
