@@ -153,7 +153,7 @@ var displayCurrentWeather = function(weather, city) {
 
 // function to change hero image backgroudn based on current weather
 var changeHeroBg = function(weather) {
-    heroImageEl.classList = "main-weather main-weather-display"
+    heroImageEl.classList = "main-weather main-weather-display";
     
     if (weather.weather[0].id < 600) {
         heroImageEl.classList.add("rainy");
@@ -182,7 +182,7 @@ var displayFiveDayWeather = function(city) {
     fetch(apiUrl).then(function(response) {
         response.json().then(function(weather) {
             console.log(weather);
-            for (var i = 0; i < weather.list.length; i+=8) {
+            for (var i = 0; i < weather.list.length; i+=7) {
                 // get current date
                 var currentDateTime = weather.list[i].dt_txt;
         
@@ -200,10 +200,9 @@ var displayFiveDayWeather = function(city) {
                 if (currentDayDate === moment().format(dayDateFormat)) {
                     continue;
                 }
-
-                if (moment().diff(fullDate, "days") > 5) {
-                    alert("date is past 5 days");
-                } 
+                // else if (moment().diff(fullDate, "days") > 5) {
+                //     alert("date is past 5 days");
+                // } 
 
                 // creates a div to house weather info
                 var nextDay = document.createElement("div");
