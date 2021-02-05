@@ -181,8 +181,7 @@ var displayFiveDayWeather = function(city) {
 
     fetch(apiUrl).then(function(response) {
         response.json().then(function(weather) {
-            console.log(weather);
-            for (var i = 0; i < weather.list.length; i+=7) {
+            for (var i = 0; i < weather.list.length; i+=8) {
                 // get current date
                 var currentDateTime = weather.list[i].dt_txt;
         
@@ -197,12 +196,9 @@ var displayFiveDayWeather = function(city) {
                 var currentDayDate = moment(splitDateTime[0]).format(dayDateFormat);
                 var fullDate = moment(splitDateTime[0]).format(fullDateFormat);
 
-                if (currentDayDate === moment().format(dayDateFormat)) {
+                if ((currentDayDate === moment().format(dayDateFormat)) || (moment().diff(fullDate, "days") < -4)) {
                     continue;
                 }
-                // else if (moment().diff(fullDate, "days") > 5) {
-                //     alert("date is past 5 days");
-                // } 
 
                 // creates a div to house weather info
                 var nextDay = document.createElement("div");
